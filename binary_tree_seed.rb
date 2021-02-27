@@ -1,3 +1,5 @@
+require './sort'
+
 class Node
   include Comparable
   attr_accessor :data, :left_child, :right_child
@@ -13,19 +15,63 @@ class Node
 end  
 
 class Tree 
-
+  
   def initialize (arr)
     @arr = arr 
   end  
 
-  def root (build tree)
+  def root (build_tree)
    
   end
   
   def build_tree (arr)
+  include sort
+    middle = (arr.length / 2) - 1
+    arr.sort[middle]
+  end  
 
-    
+  def insert
+  end  
 
+  def delete
+  end  
+
+  def find
+  end
+  
+  def level_order
+  end
+  
+  def inorder
+  end
+  
+  def preorder
+  end
+  
+  def postorder
+  end  
+
+  def height 
+  end
+  
+  def depth
+  end
+  
+  def balanced?
+  end
+  
+  def rebalance
+  end  
+
+end  
+
+arr_example = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+tree_test = Tree.new(arr_example)
+tree_test.build_tree
+
+
+=begin    
     if arr.length === 1
       return arr
     end  
@@ -43,13 +89,5 @@ class Tree
     else
       return
     end  
-
   end
-
-end  
-
-arr_example = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-tree_test = Tree.new
-tree_test.sort(arr_example)
-
+=end  
