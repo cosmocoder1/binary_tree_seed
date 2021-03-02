@@ -13,16 +13,12 @@ class Node
 end  
 
 class Tree 
-  
+  attr_accessor :root
   def initialize (arr)
     @arr = arr 
+    @root = build_tree(arr)
+    @parser = nil
   end  
-
-=begin  
-  def root
-   build_tree
-  end
-=end
 
   def build_tree (arr)
 
@@ -44,8 +40,25 @@ class Tree
 
   end
 
+  def add_node
+  end  
 
-  def insert
+  def insert (value, node)
+
+    if root === value 
+      puts "this is a duplicate value"
+      return
+    end  
+
+    if value < node.data && node.left_child === nil
+      node.left_child = Node.new(value)
+      else insert (value, node)
+    end
+    if value > node.data && node.right_child === nil
+      node.right_child = Node.new(value)
+      else insert (value, node)
+    end        
+
   end  
 
   def delete
@@ -83,5 +96,5 @@ end
 arr_example = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 tree_test = Tree.new(arr_example)
-tree_test.build_tree(arr_example)
+puts tree_test.root
 
