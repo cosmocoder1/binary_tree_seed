@@ -43,9 +43,9 @@ class Tree
   def add_node
   end  
 
-  def insert (value, node)
+  def insert (value, node=@root)
 
-    if root === value 
+    if node.data === value 
       puts "this is a duplicate value"
       return
     end  
@@ -61,7 +61,15 @@ class Tree
 
   end  
 
-  def delete
+  def delete (value, node=@root)
+
+    #find match
+    if node === nil
+      return
+    end
+
+  
+
   end  
 
   def find
