@@ -1,9 +1,10 @@
 class Node
   include Comparable
   attr_accessor :data, :left_child, :right_child
-  def <=>(other_data) 
-        data <=> other_data 
-  end
+
+  #def <=>(other_data) 
+   #     data <=> other_data 
+  #end
 
   def initialize (data)
     @data = data
@@ -17,7 +18,6 @@ class Tree
   def initialize (arr)
     @arr = arr 
     @root = build_tree(arr)
-    @parser = nil
   end  
 
   def build_tree (arr)
@@ -43,25 +43,29 @@ class Tree
   def add_node
   end  
 
-  def insert (value, node=@root)
+  def insert (value, node = root)
 
-    if node.data === value 
+    if node.data == value 
       puts "this is a duplicate value"
-      return
+      return nil
     end  
 
-    if value < node.data && node.left_child === nil
+    if value < node.data 
+      if node.left_child == nil
       node.left_child = Node.new(value)
-      else insert (value, node)
+      else insert(value, node.left_child)
+      end  
     end
-    if value > node.data && node.right_child === nil
+    if value > node.data
+      if node.right_child == nil
       node.right_child = Node.new(value)
-      else insert (value, node)
-    end        
+      else insert(value, node.right_child)
+      end  
+    end  
 
   end  
 
-  def delete (value, node=@root)
+  def delete (value, node = root)
 
     #find match
     if node === nil
@@ -101,8 +105,21 @@ class Tree
 
 end  
 
-arr_example = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-tree_test = Tree.new(arr_example)
-puts tree_test.root
+def show_tree
+  arr_example = [1, 2, 3, 5, 6, 7, 8, 9, 10]
+  tree_test = Tree.new(arr_example)
+  tree_test.insert(6)
+  
+  puts tree_test.root.data
+  print tree_test.root.left_child.data
+  puts tree_test.root.right_child.data
+  print tree_test.root.left_child.left_child.data 
+  print tree_test.root.left_child.right_child.data
+  print tree_test.root.right_child.left_child.data
+  puts tree_test.root.right_child.right_child.data
+  print tree_test.root.left_child.right_child.right_child.data
 
+end
+
+show_tree
