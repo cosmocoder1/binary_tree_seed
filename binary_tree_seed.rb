@@ -72,8 +72,32 @@ class Tree
       return
     end
 
-  
+    if value < node.data
+      node.left_child = delete(value, node.left_child)
+    elsif value > node.data
+      node.right_child = delete(value, node.right_child)
+    end  
 
+    if node === value
+      if !node.left_child
+        node = node.right_child
+      elsif !node.right_child
+        node = node.left_child
+      else 
+        succ = successor(node.right_child)
+        node.data = temp.data
+        node.right_child = delete(succ.data, node.right_child)
+      end
+    end  
+
+    node    
+
+  end  
+
+  def successor (node)
+    current_node = node
+    leftmost_leaf = successor(node.left_child)
+    return leftmost_leaf
   end  
 
   def find
@@ -109,7 +133,8 @@ end
 def show_tree
   arr_example = [1, 2, 3, 5, 6, 7, 8, 9, 10]
   tree_test = Tree.new(arr_example)
-  tree_test.insert(6)
+  tree_test.insert(11)
+  tree_test.delete(6)
   
   puts tree_test.root.data
   print tree_test.root.left_child.data
@@ -119,7 +144,10 @@ def show_tree
   print tree_test.root.right_child.left_child.data
   puts tree_test.root.right_child.right_child.data
   print tree_test.root.left_child.right_child.right_child.data
+  print tree_test.root.right_child.right_child.right_child.right_child.data
 
 end
 
 show_tree
+
+
