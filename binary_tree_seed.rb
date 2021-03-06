@@ -52,55 +52,67 @@ class Tree
 
     if value < node.data 
       if node.left_child == nil
-      node.left_child = Node.new(value)
+        node.left_child = Node.new(value)
       else insert(value, node.left_child)
       end  
     end
     if value > node.data
       if node.right_child == nil
-      node.right_child = Node.new(value)
+        node.right_child = Node.new(value)
       else insert(value, node.right_child)
       end  
     end  
 
   end  
 
+
   def delete (value, node = root)
 
-    #find match
-    if node === nil
-      return
+    if !node 
+      return nil
     end
 
     if value < node.data
-      node.left_child = delete(value, node.left_child)
+        node.left_child = delete(value, node.left_child) 
     elsif value > node.data
-      node.right_child = delete(value, node.right_child)
-    end  
+        node.right_child = delete(value, node.right_child)
+    end
 
-    if node === value
-      if !node.left_child
-        node = node.right_child
-      elsif !node.right_child
-        node = node.left_child
-      else 
-        succ = successor(node.right_child)
-        node.data = temp.data
-        node.right_child = delete(succ.data, node.right_child)
+    if node.data === value
+      if node.left_child === nil
+        return node.right_child
+      elsif node.right_child === nil
+        return node.left_child
       end
+
+      succ = successor(node.right_child)
+      node.data = succ.data
+      node.right_child = delete(succ.data, node.right_child)
     end  
-
     node    
-
   end  
 
   def successor (node)
-    current_node = node
-    leftmost_leaf = successor(node.left_child)
-    return leftmost_leaf
+    return node if node.left_child === nil
+      successor(node.left_child)
   end  
 
-  def find
+  def find (value, node = root)
+    if node === nil
+      return
+    end
+    
+    if value < node.data
+      node.left_child = find(value, node.left_child)
+      node
+    elsif value > node.data
+      node.right_child = find(value, node.right_child)
+      node
+    elsif value == node.data
+      node.data
+    end
+
+
   end
   
   def level_order
@@ -125,29 +137,24 @@ class Tree
   end
   
   def rebalance
-  end  
+  end 
+  
+  def pretty_print(node = @root, prefix = '', is_left = true)
+  pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+  puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+  pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+end
 
 end  
 
 
-def show_tree
-  arr_example = [1, 2, 3, 5, 6, 7, 8, 9, 10]
-  tree_test = Tree.new(arr_example)
-  tree_test.insert(11)
-  tree_test.delete(6)
-  
-  puts tree_test.root.data
-  print tree_test.root.left_child.data
-  puts tree_test.root.right_child.data
-  print tree_test.root.left_child.left_child.data 
-  print tree_test.root.left_child.right_child.data
-  print tree_test.root.right_child.left_child.data
-  puts tree_test.root.right_child.right_child.data
-  print tree_test.root.left_child.right_child.right_child.data
-  print tree_test.root.right_child.right_child.right_child.right_child.data
+#show_tree
 
-end
-
-show_tree
+arr_example = [1, 2, 3, 5, 6, 7, 8, 9, 10]
+tree_test = Tree.new(arr_example)
+tree_test.insert(11)
+tree_test.delete(6)
+tree_test.pretty_print
+puts tree_test.find(9)
 
 
