@@ -104,27 +104,69 @@ class Tree
     
     if value < node.data
       node.left_child = find(value, node.left_child)
-      node
     elsif value > node.data
       node.right_child = find(value, node.right_child)
-      node
     elsif value == node.data
-      node.data
+      return node
     end
 
+  end
+  
+  def level_order (node = root)
+    if node == nil
+      return
+    end  
+    result = []
+    queue = []
+    queue.push(node)
+    while !queue.empty?
+      current_node = queue[0]
+      result.push(current_node.data)
+    if current_node.left_child != nil
+      queue.push current_node.left_child
+    end
+    if current_node.right_child != nil
+      queue.push current_node.right_child
+    end
+    queue.shift
+  end
+    result.inspect
+  end
+  
+  def inorder (node = root)
+
+    if node == nil 
+      return
+    end  
+
+    inorder(node.left_child)
+    puts node.data
+    inorder(node.right_child)
 
   end
   
-  def level_order
+  def preorder (node = root)
+
+  if node == nil 
+    return
+  end  
+
+    puts node.data
+    preorder(node.left_child)
+    preorder(node.right_child)
+
   end
   
-  def inorder
-  end
+  def postorder (node = root)
+
+    if node == nil
+      return
+    end
   
-  def preorder
-  end
-  
-  def postorder
+    postorder(node.left_child)
+    postorder(node.right_child)
+    puts node.data
+
   end  
 
   def height 
@@ -155,6 +197,6 @@ tree_test = Tree.new(arr_example)
 tree_test.insert(11)
 tree_test.delete(6)
 tree_test.pretty_print
-puts tree_test.find(9)
+puts tree_test.postorder
 
 
