@@ -169,10 +169,44 @@ class Tree
 
   end  
 
-  def height 
+  def height (value)
+    
+    left_count = 0
+    right_count = 0
+    current_node = root
+
+    while current_node.data != value do
+      if value < current_node.data
+        current_node = current_node.left_child
+      elsif value > current_node.data 
+        current_node = current_node.right_child
+      end
+    end        
+  
+    while current_node.right_child || current_node.left_child do
+      current_node
+
   end
   
-  def depth
+  def depth (value)
+
+    if root.data === value
+      return 0
+    end
+    
+    count = 0
+    current_node = root
+    while current_node.data != value do
+      if value < current_node.data
+        current_node = current_node.left_child
+        count += 1
+      elsif value > current_node.data 
+        current_node = current_node.right_child
+        count += 1
+      end
+    end        
+    return count
+
   end
   
   def balanced?
@@ -197,6 +231,6 @@ tree_test = Tree.new(arr_example)
 tree_test.insert(11)
 tree_test.delete(6)
 tree_test.pretty_print
-puts tree_test.postorder
+puts tree_test.height(9)
 
 
