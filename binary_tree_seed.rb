@@ -169,30 +169,10 @@ class Tree
 
   end  
 
-  def height (node = root)
-
-    if !node
-      return nil
-    end  
-
-    unless node === root || node === nil
-      node = find_node(node.data)
-    end   
-  
-      left_subtree = height(node.left_child) 
-      right_subtree = height(node.right_child)
-    
-      if left_subtree > right_subtree
-        return left_subtree + 1
-      else
-        return right_subtree + 1
-      end    
-
-  end
-
-  def find_node (value, node = root)
+  def height (value, node = root)
 
     current_node = root
+
     while current_node.data != value do
       if value < current_node.data
         current_node = current_node.left_child
@@ -200,9 +180,17 @@ class Tree
         current_node = current_node.right_child
       end
     end  
-    return current_node
+    
+    def longest_edge (node)
+    if node === nil 
+      return -1
+    end
 
-  end  
+    [longest_edge(node.left_child) , longest_edge(node.right_child)].max+1
+
+    end
+    puts longest_edge(current_node)
+  end
   
   def depth (value)
 
@@ -247,6 +235,6 @@ tree_test = Tree.new(arr_example)
 tree_test.insert(11)
 tree_test.delete(6)
 tree_test.pretty_print
-puts tree_test.height(9)
+
 
 
