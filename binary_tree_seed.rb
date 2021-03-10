@@ -169,24 +169,40 @@ class Tree
 
   end  
 
-  def height (value)
-    
-    left_count = 0
-    right_count = 0
-    current_node = root
+  def height (node = root)
 
+    if !node
+      return nil
+    end  
+
+    unless node === root || node === nil
+      node = find_node(node.data)
+    end   
+  
+      left_subtree = height(node.left_child) 
+      right_subtree = height(node.right_child)
+    
+      if left_subtree > right_subtree
+        return left_subtree + 1
+      else
+        return right_subtree + 1
+      end    
+
+  end
+
+  def find_node (value, node = root)
+
+    current_node = root
     while current_node.data != value do
       if value < current_node.data
         current_node = current_node.left_child
       elsif value > current_node.data 
         current_node = current_node.right_child
       end
-    end        
-  
-    while current_node.right_child || current_node.left_child do
-      current_node
+    end  
+    return current_node
 
-  end
+  end  
   
   def depth (value)
 
