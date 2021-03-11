@@ -213,7 +213,12 @@ class Tree
 
   end
   
-  def balanced?
+  def balanced? (node = root)
+    left_child_height = height(node.left_child.data)
+    right_child_height = height(node.right_child.data)
+  
+    (left_child_height - right_child_height).abs > 1 ? "tree is not balanced" : "tree is balanced"
+     
   end
   
   def rebalance
@@ -235,6 +240,7 @@ tree_test = Tree.new(arr_example)
 tree_test.insert(11)
 tree_test.delete(6)
 tree_test.pretty_print
+puts tree_test.balanced?
 
 
 
