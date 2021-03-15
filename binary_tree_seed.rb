@@ -189,7 +189,7 @@ class Tree
     [longest_edge(node.left_child) , longest_edge(node.right_child)].max+1
 
     end
-    puts longest_edge(current_node)
+    longest_edge(current_node)
   end
   
   def depth (value)
@@ -214,13 +214,23 @@ class Tree
   end
   
   def balanced? (node = root)
-    left_child_height = height(node.left_child.data)
-    right_child_height = height(node.right_child.data)
-  
-    (left_child_height - right_child_height).abs > 1 ? "tree is not balanced" : "tree is balanced"
+
+    if node === nil 
+      return true
+    end
+
+    return false if !check_balance(node)
+    return true unless balanced?(node.left_child). && balanced?(node.right_child) 
      
   end
+
+  def check_balance (node = root)
+    left_child_height = height(node.left_child)
+    right_child_height = height(node.right_child)
   
+    (left_child_height.data - right_child_height.data).abs > 1 ? false : true
+  end  
+
   def rebalance
   end 
   
