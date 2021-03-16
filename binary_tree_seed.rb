@@ -68,7 +68,6 @@ class Tree
 
   def delete (value, node = root)
 
-
     if !node 
       return nil
     end
@@ -116,9 +115,11 @@ class Tree
   end
   
   def level_order (node = root)
+
     if node == nil
       return
     end  
+
     result = []
     queue = []
     queue.push(node)
@@ -173,6 +174,7 @@ class Tree
   end  
 
   def longest_edge (node)
+
     if node === nil 
       return -1
     end
@@ -192,7 +194,9 @@ class Tree
         current_node = current_node.right_child
       end
     end  
+
     longest_edge(current_node)
+    
   end
   
   def depth (value)
