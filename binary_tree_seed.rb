@@ -1,10 +1,6 @@
 class Node
-  include Comparable
-  attr_accessor :data, :left_child, :right_child
 
-  #def <=>(other_data) 
-   #     data <=> other_data 
-  #end
+  attr_accessor :data, :left_child, :right_child
 
   def initialize (data)
     @data = data
@@ -54,12 +50,16 @@ class Tree
       if node.left_child == nil
         node.left_child = Node.new(value)
       else insert(value, node.left_child)
+        @arr.push(value)
+        @root = build_tree(@arr)
       end  
     end
     if value > node.data
       if node.right_child == nil
         node.right_child = Node.new(value)
       else insert(value, node.right_child)
+        @arr.push(value)
+        @root = build_tree(@arr)
       end  
     end  
 
@@ -67,6 +67,7 @@ class Tree
 
 
   def delete (value, node = root)
+
 
     if !node 
       return nil
@@ -79,6 +80,8 @@ class Tree
     end
 
     if node.data === value
+      @arr.delete(value)
+      @root = build_tree(@arr)
       if node.left_child === nil
         return node.right_child
       elsif node.right_child === nil
@@ -130,7 +133,7 @@ class Tree
     end
     queue.shift
   end
-    result.inspect
+    result
   end
   
   def inorder (node = root)
@@ -169,6 +172,15 @@ class Tree
 
   end  
 
+  def longest_edge (node)
+    if node === nil 
+      return -1
+    end
+
+    [longest_edge(node.left_child) , longest_edge(node.right_child)].max+1
+  end  
+
+
   def height (value, node = root)
 
     current_node = root
@@ -180,15 +192,6 @@ class Tree
         current_node = current_node.right_child
       end
     end  
-    
-    def longest_edge (node)
-    if node === nil 
-      return -1
-    end
-
-    [longest_edge(node.left_child) , longest_edge(node.right_child)].max+1
-
-    end
     longest_edge(current_node)
   end
   
@@ -219,29 +222,39 @@ class Tree
       return true
     end
 
-    return false if !check_balance(node)
-    return true unless balanced?(node.left_child). && balanced?(node.right_child) 
+    return false if check_balance(node) === false
+
+    unless balanced?(node.left_child) && balanced?(node.right_child)
+      return false
+    end  
+
+    true
      
   end
 
   def check_balance (node = root)
-    left_child_height = height(node.left_child)
-    right_child_height = height(node.right_child)
+
+    left_child_height = longest_edge(node.left_child)
+    right_child_height = longest_edge(node.right_child)
   
-    (left_child_height.data - right_child_height.data).abs > 1 ? false : true
+    (left_child_height - right_child_height).abs > 1 ? false : true
+
   end  
 
-  def rebalance
+  def rebalance (arr = @arr)
+
+    @arr = level_order.sort
+    @root = build_tree(arr)
+
   end 
   
   def pretty_print(node = @root, prefix = '', is_left = true)
-  pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
-  puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
-  pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
-end
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
+  end
 
 end  
-
 
 #show_tree
 
@@ -249,8 +262,10 @@ arr_example = [1, 2, 3, 5, 6, 7, 8, 9, 10]
 tree_test = Tree.new(arr_example)
 tree_test.insert(11)
 tree_test.delete(6)
+tree_test.delete(10)
 tree_test.pretty_print
 puts tree_test.balanced?
+
 
 
 
